@@ -184,11 +184,11 @@ if($contentVisibleToUser and $event){ ?>
         </div>
         -->
         <div class="col-md-6">
-            <h1><?php echo $event['name']; ?></h1>
-            <p><?php echo $event['description']; ?></p>
+            <h1><?php echo htmlspecialchars($event['name']); ?></h1>
+            <p><?php echo htmlspecialchars($event['description']); ?></p>
             <p><strong>Date:</strong> <?php echo $date; ?></p>
             <p><strong>Time:</strong> <?php echo $time; ?></p>
-            <p><strong>Place:</strong> <?php echo $event['place']; ?></p>
+            <p><strong>Place:</strong> <?php echo htmlspecialchars($event['place']); ?></p>
             <p><strong>Participants:</strong>
                 <?php
                 foreach ($particip as $participant){
@@ -212,7 +212,7 @@ if($contentVisibleToUser and $event){ ?>
                     <div class="row justify-content-center">
                         <div class="col-auto">
                             <form action="delete.php" method="POST">
-                                <input type="hidden" name="delete" id="delete" value="<?php echo $event_id ?>">
+                                <input type="hidden" name="delete" id="delete" value="<?php echo $event_id; ?>">
                                 <button type="submit" class="btn btn-primary" name="button1">Delete event</button>
                             </form>
                         </div>
@@ -271,7 +271,7 @@ if($contentVisibleToUser and $event){ ?>
                     <span class="comment-date"><?php echo $comment['datetime'] ?></span>
                 </div>
                 <div class="comment-body">
-                    <p><?php echo $comment['text'] ?></p>
+                    <p><?php echo htmlspecialchars($comment['text']); ?></p>
                 </div>
             </div>
             <?php } ?>

@@ -12,19 +12,6 @@
     $confirmPassowrd = @$_POST['confirmPassword'];
     $name = htmlspecialchars(trim(@$_POST['name']));
 
-    //email současného uživatele
-      $emails = $db->prepare("SELECT email FROM users WHERE;");
-      $emails->execute();
-      $emails = $emails->fetchAll(PDO::FETCH_ASSOC); //
-
-      $emailAlreadyInDb = false;
-      foreach ($emails["email"] as $currentemail){
-          if($email == $currentemail){
-              $emailAlreadyInDb = true;
-          }
-      }
-
-
 
     $correctPassword = false;
     if($confirmPassowrd == $password){
@@ -71,17 +58,31 @@
             Passwords are not same.
         </div>
     </div>
-        <?php } if($emailAlreadyInDb){ ?>
-            <div class="container">
-                <div class="alert alert-warning" role="alert">
-                    Email already used.
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" name="name" id="name" value="<?php echo $name ?>" placeholder="Enter your name" required>
                 </div>
-            </div>
-    <?php } }?>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $email ?>" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+    <?php } } else {?>
     <form method="post">
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name" required>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name" value="" required>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
@@ -97,6 +98,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
+    <?php } ?>
 </div>
 
 <footer class="footer">

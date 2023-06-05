@@ -16,9 +16,10 @@ $emailOfCurrentUser = $emailOfCurrentUser->fetch(PDO::FETCH_ASSOC); //
 
 
 //získám všechny eventy z databáze
-$events = $db->prepare("SELECT * FROM event;");
+$events = $db->prepare("SELECT * FROM event ORDER BY datetime;");
 $events->execute();
 $events = $events->fetchAll(PDO::FETCH_ASSOC); //
+
 
 ?>
 
@@ -49,6 +50,8 @@ $events = $events->fetchAll(PDO::FETCH_ASSOC); //
 
           <?php foreach ($events as $event){
 
+              $status = "";
+
               $event_id = $event['id'];
 
               $emailsOfInvited = $db->prepare("SELECT email FROM invited WHERE event_id = ?;");
@@ -62,6 +65,43 @@ $events = $events->fetchAll(PDO::FETCH_ASSOC); //
                       break;
                   }
               }
+
+              $isParticipant = false;
+
+              $participants = $db->prepare("SELECT * FROM participants WHERE event_id = ?;");
+              $participants->execute([$event_id]);
+              $participants = $participants->fetchAll(PDO::FETCH_ASSOC);
+
+              $allParticipants = [];
+
+              foreach ($participants as $particip){
+                  $allParticipants[] = $particip["user_id"];
+              }
+
+              $isParticipant = false;
+
+
+              foreach ($allParticipants as $participant){
+                  if($user_id){
+                      if($participant == $user_id){
+                          $isParticipant = true;
+                      }
+                  }
+
+              }
+
+
+              if($event['organiser'] == $user_id){
+                  $status = 'My event';
+              } elseif ($isParticipant){
+                  $status = "I am a participant";
+              } elseif ($emailOnGuestlist){
+                  $status = "I am invited";
+              } else {
+                  $status = "Public event";
+              }
+
+
 
               //může vidět událost a přihlásit se na ní
               $contentVisibleToUser = false;
@@ -82,9 +122,10 @@ $events = $events->fetchAll(PDO::FETCH_ASSOC); //
               <div class="col-md-4">
                   <div class="card">
                       <div class="card-body">
-                          <h5 class="card-title"><?php echo $event['name']; ?></h5>
-                          <p class="card-text">Date: <?php echo $event['datetime']; ?></p>
-                          <p class="card-text"><?php echo $event['description']; ?></p>
+                          <h5 class="card-title"><?php echo htmlspecialchars($event['name']); ?></h5>
+                          <p class="card-text"><?php echo htmlspecialchars($status); ?></p>
+                          <p class="card-text">Date: <?php echo htmlspecialchars($event['datetime']); ?></p>
+                          <p class="card-text"><?php echo htmlspecialchars($event['description']); ?></p>
                           <a href="event.php?id=<?php echo $event['id'] ?>" class="btn btn-primary">Learn More</a>
                       </div>
                   </div>

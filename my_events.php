@@ -48,9 +48,9 @@ if($user_id){
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $event['name']; ?></h5>
-                        <p class="card-text">Date: <?php echo $event['datetime']; ?></p>
-                        <p class="card-text"><?php echo $event['description']; ?></p>
+                        <h5 class="card-title"><?php echo htmlspecialchars($event['name']); ?></h5>
+                        <p class="card-text">Date: <?php echo htmlspecialchars($event['datetime']); ?></p>
+                        <p class="card-text"><?php echo htmlspecialchars($event['description']); ?></p>
                         <a href="event.php?id=<?php echo $event['id'] ?>" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
