@@ -12,6 +12,20 @@
     $confirmPassowrd = @$_POST['confirmPassword'];
     $name = htmlspecialchars(trim(@$_POST['name']));
 
+    //email současného uživatele
+      $emails = $db->prepare("SELECT email FROM users WHERE;");
+      $emails->execute();
+      $emails = $emails->fetchAll(PDO::FETCH_ASSOC); //
+
+      $emailAlreadyInDb = false;
+      foreach ($emails["email"] as $currentemail){
+          if($email == $currentemail){
+              $emailAlreadyInDb = true;
+          }
+      }
+
+
+
     $correctPassword = false;
     if($confirmPassowrd == $password){
         $correctPassword = true;
@@ -57,6 +71,12 @@
             Passwords are not same.
         </div>
     </div>
+        <?php } if($emailAlreadyInDb){ ?>
+            <div class="container">
+                <div class="alert alert-warning" role="alert">
+                    Email already used.
+                </div>
+            </div>
     <?php } }?>
     <form method="post">
         <div class="form-group">
