@@ -7,9 +7,9 @@
 	
   if (!empty($_POST)) {
 	
-    $email = @$_POST['email'];
+    $email = htmlspecialchars(trim(@$_POST['email']));
     $password = @$_POST['password'];
-    $name = @$_POST['name'];
+    $name = htmlspecialchars(trim(@$_POST['name']));
 
 
 	  $passwordHash = password_hash($password, PASSWORD_DEFAULT); //pokud nemáte důvod to měnit, nechte heslo zahashovat výchozí funkcí; další možnosti viz manuál

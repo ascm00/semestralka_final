@@ -6,8 +6,8 @@
   require 'db.php';
 	
   if (!empty($_POST)){
-      $email = @$_POST['email'];
-      $password = @$_POST['password'];
+      $email = htmlspecialchars(@$_POST['email']);
+      $password = htmlspecialchars(@$_POST['password']);
 
       $stmt = $db->prepare("SELECT * FROM users WHERE email = ? LIMIT 1"); //limit 1 je tu jen jako vykonnostní optimalizace, 2 stejné maily v DB nebudou
       $stmt->execute([$email]);
