@@ -50,13 +50,14 @@
 
 <div class="container">
     <h2>Sign Up</h2>
-    <?php if(!$correctPassword){ ?>
+    <?php if(isset($correctPassword)){
+        if(!$correctPassword){ ?>
     <div class="container">
         <div class="alert alert-warning" role="alert">
             Passwords are not same.
         </div>
     </div>
-    <?php } ?>
+    <?php } }?>
     <form method="post">
         <div class="form-group">
             <label for="name">Name:</label>
